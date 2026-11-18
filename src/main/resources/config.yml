@@ -1,0 +1,84 @@
+# ==========================================
+# 日月账号系统 RiYueOauth 配置
+# 改完这个文件后，服务器里输入 /reload 或重启生效
+# ==========================================
+
+# ============ 数据库 ============
+# 想跨服同步，就让所有服指向同一个数据库。两种模式二选一：
+#
+#   sqlite —— 所有服在同一台机器：把 file 指向同一个 .db 文件即可（简单，但多服同时写会抢锁）
+#   mysql  —— 服在不同机器，或想要更稳：所有服填同一个 MySQL 地址（跨服推荐）
+database:
+  # 填 sqlite 或 mysql
+  type: "sqlite"
+
+  # ---- sqlite 模式用这个 ----
+  # 相对于服务器根目录；多台服在同一机器时，所有服都填同一个路径
+  file: "plugins/RiYueOauth/database.db"
+
+  # ---- mysql 模式用这个（type 改成 mysql 才生效）----
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "riyueoauth"
+    username: "root"
+    password: "密码"
+    # 连接参数，一般不用动；时区按你所在地区改
+    params: "useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+
+# 登录限制：玩家没登录时能做什么
+login:
+  # 没登录时禁止走动
+  block-move: true
+  # 没登录时禁止聊天
+  block-chat: true
+  # 没登录时禁止使用指令（注册/登录/找回除外）
+  block-command: true
+  # 没登录时禁止点东西、拿东西、丢东西
+  block-interact: true
+  # 没登录时无敌且不能攻击别人
+  block-damage: true
+  # 没登录时隐藏背包内容（防止别人看到你身上的东西），登录后自动还原
+  hide-inventory: true
+  # 登录成功后是否传送到指定位置（比如大厅）
+  teleport-on-login: false
+  teleport-world: "world"
+  teleport-x: 0
+  teleport-y: 64
+  teleport-z: 0
+
+# 注册密码规则
+password:
+  min-length: 6
+  max-length: 32
+  # true = 注册时必须填邮箱
+  require-email: false
+
+# 找回密码
+recovery:
+  # 验证码有效期（秒）
+  code-expire-seconds: 300
+  # 没配置邮箱时，验证码会直接打印在服务器控制台，管理员手动告诉玩家
+  # 想自动发邮件就改成 true 并填下面的 SMTP 信息
+  smtp:
+    enabled: false
+    host: "smtp.qq.com"
+    port: 465
+    ssl: true
+    username: "你的邮箱@qq.com"
+    password: "邮箱授权码（不是登录密码）"
+    from: "你的邮箱@qq.com"
+
+# 玩家数据同步：数据统一存到数据库，换服/换设备登录自动带回
+data-sync:
+  sync-inventory: true
+  sync-enderchest: true
+  # 统计信息：走路距离、挖掘、击杀、死亡、游玩时间等
+  sync-statistics: true
+  # 在线时定时自动保存（秒），0 = 关闭
+  auto-save-interval-seconds: 300
+  # 玩家退出服务器时保存
+  save-on-quit: true
+
+# 消息前缀
+prefix: "&8[&b日月&8] &r"
