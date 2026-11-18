@@ -1,0 +1,38 @@
+name: RiYueOauth
+version: 1.0.0
+main: com.ruiyue.oauth.RiYueOauth
+api-version: 1.20
+author: 阿聚
+description: 日月账号系统：注册登录、邮箱找回、背包/末影箱/统计信息同步
+
+commands:
+  zc:
+    description: 注册账号
+    usage: /zc <密码> [邮箱]
+    aliases: [register, reg]
+  l:
+    description: 登录账号
+    usage: /l <密码>
+    aliases: [login]
+  pw:
+    description: 找回/重置密码
+    usage: /pw <邮箱> 或 /pw <验证码> <新密码>
+    aliases: [forgotpassword, forget]
+  zx:
+    description: 退出登录
+    usage: /zx
+    aliases: [logout]
+
+permissions:
+  riyueoauth.bypass:
+    description: 跳过登录限制（给管理员/OP 用）
+    default: op
+  riyueoauth.admin:
+    description: 管理权限（查看控制台验证码提示）
+    default: op
+  riyueoauth.*:
+    description: 全部权限
+    default: false
+    children:
+      riyueoauth.bypass: true
+      riyueoauth.admin: true
